@@ -68,7 +68,7 @@
         items: [
           {
             icon: 'apps',
-            title: 'Welcome',
+            title: 'Home',
             to: '/'
           },
           {
