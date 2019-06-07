@@ -17,14 +17,36 @@
       <img src="/images/logo_white.png" height="50px"  />
       <v-toolbar-title v-text="title" />
       <v-spacer></v-spacer>
-      <v-menu open-on-hover top offset-y>
+      <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
         <template v-slot:activator="{ on }">
-          <v-btn fab flat icon>
-            <v-icon>user</v-icon>
+          <v-btn fab flat v-on="on">
+            <v-icon>person</v-icon>
           </v-btn>
         </template>
-        <v-card >
-
+        <v-card>
+          <v-list>
+            <v-list-tile avatar>
+              <v-list-tile-avatar>
+                <v-icon color="accent">person</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>First Last</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+          <v-divider></v-divider>
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-action>
+                <v-switch color="accent"></v-switch>
+              </v-list-tile-action>
+              <v-list-tile-title>Setting</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn flat>Logout</v-btn>
+          </v-card-actions>
         </v-card>
       </v-menu>
     </v-toolbar>
