@@ -1,21 +1,4 @@
-# Cat Central Management System Front-End
+# TCR CMS FRONT-END
 
-Cat Management System for Toronto Cat Rescue.
-Front-End system built with Nuxt on Vue and Vuetify
+Front-end for the TorontoCatRescue CatManagementSystem
 
-## Build Setup
-
-``` bash
-# install dependencies
-$ yarn install
-
-# serve with hot reload at localhost:3000
-$ yarn run dev
-
-# build for production and launch server
-$ yarn run build
-$ yarn start
-
-# generate static project
-$ yarn run generate
-```

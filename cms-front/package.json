@@ -1,32 +1,39 @@
 {
-  "name": "cms-front",
+  "name": "tcr-cms-front",
   "version": "0.0.1",
-  "description": "Cat Management System",
-  "author": "TorontoCatRescue",
+  "description": "Front-end for the TCR CMS",
+  "productName": "TCR CMS FRONT",
+  "cordovaId": "com.tcr.cms",
+  "author": "TCR",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "yarn run lint",
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
-    "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate"
+    "dev": "quasar dev -m ssr",
+    "build": "quasar build -m ssr"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
-    "@nuxtjs/pwa": "^2.6.0",
-    "@nuxtjs/vuetify": "0.5.5",
-    "cross-env": "^5.2.0",
-    "express": "^4.16.4",
-    "nuxt": "^2.0.0"
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.18.1",
+    "quasar": "^1.0.0-beta.0",
+    "vue-class-component": "^7.1.0"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^0.0.1",
-    "@nuxtjs/eslint-module": "^0.0.1",
+    "@quasar/app": "^1.0.0-beta.0",
+    "@quasar/quasar-app-extension-typescript": "^1.0.0-alpha.14",
+    "@types/node": "11.9.5",
+    "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
-    "nodemon": "^1.18.9",
-    "prettier": "^1.16.4",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2"
-  }
+    "eslint": "^5.10.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.2"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "browserslist": [
+    "last 1 version, not dead, ie >= 11"
+  ]
 }
