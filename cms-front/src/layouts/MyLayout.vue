@@ -35,9 +35,7 @@
               {{ menuItem.label }}
             </q-item-section>
           </q-item>
-
           <q-separator v-if="menuItem.separator" />
-
         </q-list>
       </q-scroll-area>
     </q-drawer>
