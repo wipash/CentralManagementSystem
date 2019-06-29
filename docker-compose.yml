@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  cms-back:
+    build:
+      context: ./cms-back
+    ports:
+      - "8081:3000"
+
+
+  cms-front:
+    build:
+      context: ./cms-front
+    ports:
+      - "8080:3000"
