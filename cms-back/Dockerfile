@@ -14,4 +14,4 @@ COPY --chown=node:node . .
 RUN yarn run tsc
 
 EXPOSE 3000
-CMD ["node", "./server/index.js"]
+CMD ["node", "./build/app.js"]
