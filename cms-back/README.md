@@ -1,18 +1,22 @@
-# Cat Central Management System Back-End
+# django-cloud-run
+Django running on Cloud Run, connecting to Cloud SQL
 
-Cat Management System for Toronto Cat Rescue.
-Front-End system built with Nuxt on Vue and Vuetify
+## Run locally
+```bash
+python3.7 -m venv env
 
-## Build Setup
+.\env\Scripts\Activate.ps1
+# or
+source env/bin/activate
+# or
 
-``` bash
-# install dependencies
-$ yarn install
+pip install -r requirements.txt
 
-# serve at localhost:3000
-$ yarn run dev
+python3 manage.py runserver
+```
 
-# build for production and launch server
-$ yarn run tsc
-$ yarn run prod
+## Docker
+```
+docker build -t djangocloudrun .
+docker run -p 8000:8000 -e PORT=8000 djangocloudrun
 ```

@@ -1,17 +1,19 @@
-FROM node:12-alpine
+FROM python:3.7-alpine as base
 
-# Yarn install before copying in code to make use of Docker caching
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
-COPY package.json yarn.lock ./
-USER node
-RUN yarn install
+FROM base as builder
+RUN mkdir /install
+WORKDIR /install
+COPY requirements.txt /requirements.txt
+RUN pip install --install-option="--prefix=/install" -r /requirements.txt
 
-# Copy in app code
-COPY --chown=node:node . .
+FROM base
+COPY --from=builder /install /usr/local
 
-# Build
-RUN yarn run tsc
+RUN adduser -D python
+USER python
+RUN mkdir -p /home/python/app
+WORKDIR /home/python/app
 
-EXPOSE 3000
-CMD ["node", "./build/app.js"]
+COPY --chown=python:python . .
+
+CMD ["sh", "run.sh"]
