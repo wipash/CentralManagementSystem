@@ -74,8 +74,12 @@ WSGI_APPLICATION = 'djangocloudrun.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-import pymysql  # noqa: 402
-pymysql.install_as_MySQLdb()
+try:
+    import MySQLdb  # noqa: F401
+except ImportError:
+    import pymysql
+    pymysql.install_as_MySQLdb()
+
 
 # [START db_setup]
 if os.getenv('GAE_APPLICATION', None):
