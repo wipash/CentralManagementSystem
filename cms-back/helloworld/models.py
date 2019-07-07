@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.files.storage import default_storage
+
 
 
 '''
@@ -26,10 +28,18 @@ class Cat(models.Model):
     )
     status = models.CharField(max_length=3, choices=CAT_STATUS)    
     propose_date = models.DateField()
-    #intake_source = 
-     
+    intake_date = models.DateField()
+    intake_source = models.CharField(max_length=30) 
+    finished_quarantine_date = models.DateField()
+    cat_id = models.IntegerField()
+    cat_name = models.CharField(max_length=30)
+    cat_photo = models.ImageField(upload_to='photos',null=True)
+    cat_medical_history = models.FileField(upload_to='pdfs',null=True)
     mh_attached = models.BooleanField()
-
+    fvrcp_vaccination = models.BooleanField()
+    rabies_vaccination = models.BooleanField()
+    
+    
 
 '''
 name
@@ -45,9 +55,23 @@ class FosterHome(models.Model):
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=80)
 
+'''
+type ( Intake Coordinator / Shelter Staff / Adoption Counsellors / Adoption Administrations / Pet Point Processing / Post-Adoption Team / Behaviour Counsellors / Animal Shelter Coordinator / Foster Coordinator / TCR Coordinator)
+name
+email
+phone number?
+'''
+
 class Coordinator(models.Model):
     name = models.CharField(max_length=30)
     phone_number= models.CharField(max_length=80)
+
+
+'''
+intake source name (e.g. Toronto Animal Services North/West/East, return cat, move cat, or other)
+contact(s) at this location
+'''
+
 
 class IntakeSource(models.Model):
     name = models.CharField(max_length=30)

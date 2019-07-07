@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -74,11 +75,7 @@ WSGI_APPLICATION = 'djangocloudrun.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-try:
-    import MySQLdb  # noqa: F401
-except ImportError:
-    import pymysql
-    pymysql.install_as_MySQLdb()
+import MySQLdb  # noqa: F401
 
 
 # [START db_setup]
@@ -111,6 +108,15 @@ else:
             'PASSWORD': 'IP7FHplnA3jLz51i',
         }
     }
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'central-management-system-files'
+
+    
+
+
+
+
 # [END db_setup]
 
 # Password validation
