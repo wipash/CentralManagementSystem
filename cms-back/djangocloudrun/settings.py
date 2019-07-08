@@ -101,20 +101,16 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
-            'NAME': 'dev_centralmanagementsystem',
-            'USER': 'root',
-            'PASSWORD': 'IP7FHplnA3jLz51i',
+            'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
+            'PORT': os.getenv('DATABASE_PORT', '3306'),
+            'NAME': os.getenv('DATABASE_NAME', 'dev_centralmanagementsystem'),
+            'USER': os.getenv('DATABASE_USER', 'root'),
+            'PASSWORD': os.getenv('DATABASE_PASSWORD','IP7FHplnA3jLz51i'),
         }
     }
 
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'central-management-system-files'
-
-    
-
-
 
 
 # [END db_setup]
