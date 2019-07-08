@@ -54,6 +54,6 @@ python manage.py runserver
 
 ## Alternatively, build and run a Docker container
 ```
-docker build -t djangocloudrun .
-docker run -p 8000:8000 -e PORT=8000 djangocloudrun
+docker build -t cms-back .
+docker run -p 8000:8000 -e PORT=8000 cms-back
 ```
