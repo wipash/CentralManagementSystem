@@ -1,6 +1,10 @@
 # Created by https://www.gitignore.io/api/django,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=django,visualstudiocode
 
+### GCloud ###
+key.json
+cms-sql-dev-key.json
+
 ### Django ###
 *.log
 *.pot
