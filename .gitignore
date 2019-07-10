@@ -1,6 +1,10 @@
 # Created by https://www.gitignore.io/api/django,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=django,visualstudiocode
 
+### GCloud ###
+key.json
+cms-sql-dev-key.json
+
 ### Django ###
 *.log
 *.pot
@@ -109,7 +113,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env
+#.env
 .venv
 env/
 venv/
@@ -137,7 +141,7 @@ dmypy.json
 
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
+#!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json

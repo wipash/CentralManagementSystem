@@ -3,7 +3,7 @@ version: '3'
 services:
   cms-back:
     build:
-      context: ./cms-back
+      context: .
     environment:
       - PORT=3000
       - DATABASE_HOST=cloud-sql-proxy
@@ -16,13 +16,6 @@ services:
     image: gcr.io/cloudsql-docker/gce-proxy:1.14
     command: /cloud_sql_proxy -instances=central-management-system:us-central1:cms-back-tcr=tcp:0.0.0.0:3306 -credential_file=/config.json
     volumes:
-      - ./cms-back/cms-sql-dev-key.json:/config.json
+      - ./cms-sql-dev-key.json:/config.json
     ports:
       - 3306:3306
-
-
-  cms-front:
-    build:
-      context: ./cms-front
-    ports:
-      - "8080:3000"
