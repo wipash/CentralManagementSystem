@@ -8,7 +8,7 @@ matrix:
       python: 3.7.3
       before_install:
         - "sudo apt-get update"
-        - "sudo apt-get install default-libmysqlclient-dev"
+        - "sudo apt-get install libmysqlclient-dev"
         - "cd cms-back"
       install:
         - "pip install flake8-django flake8-bugbear pep8-naming flake8-commas"
