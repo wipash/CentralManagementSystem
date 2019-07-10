@@ -1,11 +1,12 @@
 ---
+dist: xenial
 matrix:
   include:
     -
       name: "cms-back on Python 3.7.3"
       language: python
-      dist: xenial
       python: 3.7.3
+      cache: pip
       before_install:
         - "sudo apt-get update"
         - "sudo apt-get install libmysqlclient-dev"
