@@ -1,24 +1,6 @@
 from django.db import models
 from django.core.files.storage import default_storage
 
-
-
-'''
-status * (proposed/intake/fostered/adopted/)
-proposal date *
-intake source *
-intake date
-finished quarantine date (always 2 weeks after intake date)
-cat ID (shelter ID)
-name
-photo (support all image files)
-medical history pdf/image (multiple)
-notes
-MH attached? y/n
-spayed/neutered/neither
-fvrcp vaccination (y/n)
-rabies vaccination (y/n)
-'''
 class Cat(models.Model):
     CAT_STATUS = (
         ('PRO', 'Proposed'),
@@ -35,44 +17,34 @@ class Cat(models.Model):
     cat_name = models.CharField(max_length=30)
     cat_photo = models.ImageField(upload_to='photos',null=True)
     cat_medical_history = models.FileField(upload_to='pdfs',null=True)
+    notes = models.CharField(max_length=100)
     mh_attached = models.BooleanField()
+    spayed_neutered = models.BooleanField()
     fvrcp_vaccination = models.BooleanField()
     rabies_vaccination = models.BooleanField()
     
     
-
-'''
-name
-address
-contact info
-status (active/inactive/not allowed to foster)
-home environment (kids? other pets?)
-car ownership (y/n)
-free-style notes
-'''
-
 class FosterHome(models.Model):
+    STATUS = (
+        ('ACT', 'Active'),
+        ('INA', 'Inactive'),
+        ('NAF', 'Not Allowed to Foster'),
+    )
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=80)
-
-'''
-type ( Intake Coordinator / Shelter Staff / Adoption Counsellors / Adoption Administrations / Pet Point Processing / Post-Adoption Team / Behaviour Counsellors / Animal Shelter Coordinator / Foster Coordinator / TCR Coordinator)
-name
-email
-phone number?
-'''
+    contact_info = models.CharField(max_length=80)
+    status = models.CharField(max_length=10)
+    home_environment = models.CharField(max_length=50)
+    car_ownership = models.BooleanField()
+    freestyle_notes = models.CharField(max_length=200)
 
 class Coordinator(models.Model):
     name = models.CharField(max_length=30)
+    type = models.CharField(max_length=40)
     phone_number= models.CharField(max_length=80)
-
-
-'''
-intake source name (e.g. Toronto Animal Services North/West/East, return cat, move cat, or other)
-contact(s) at this location
-'''
+    email = models.CharField(max_length=40)
 
 
 class IntakeSource(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=50)
     contact = models.CharField(max_length=80)
