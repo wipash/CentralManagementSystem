@@ -12,24 +12,55 @@ from .serializers import CoordinatorSerializer, IntakeSourceSerializer, CatSeria
 def homePageView(request):
     return HttpResponse('Hello, World!')
 
-class ViewTemplate(APIView):
-	def __init__(self, model, serializer):
-	       self.model = model
-	       self.serializer = serializer
+class CatView(APIView):
 	def get(self, request):
-	       model = self.model.objects.all()
-	       serializer = self.serializer(model, many=True)
+	       model = Cat.objects.all()
+	       serializer = CatSerializer(model, many=True)
 	       return Response(serializer.data)
 	def post(self, request):
-	       serializer = self.serializer(data=request.DATA)
+	       serializer = serializer(data=request.DATA)
 	       if serializer.is_valid():
 	           serializer.save()
 	           return Response(serializer.data, status=status.HTTP_201_CREATED)
 	       else:
 	           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-CatView = ViewTemplate(Cat, CatSerializer)
-IntakeSourceView = ViewTemplate(IntakeSource, IntakeSourceSerializer)
-CoordinatorView = ViewTemplate(Coordinator, CoordinatorSerializer)
-FosterHomeView = ViewTemplate(FosterHome, FosterHomeSerializer)
- 
+class IntakeSourceView(APIView):
+	def get(self, request):
+	       model = IntakeSource.objects.all()
+	       serializer = IntakeSourceSerializer(model, many=True)
+	       return Response(serializer.data)
+	def post(self, request):
+	       serializer = serializer(data=request.DATA)
+	       if serializer.is_valid():
+	           serializer.save()
+	           return Response(serializer.data, status=status.HTTP_201_CREATED)
+	       else:
+	           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class FosterHomeView(APIView):
+	def get(self, request):
+	       model = FosterHome.objects.all()
+	       serializer = FosterHomeSerializer(model, many=True)
+	       return Response(serializer.data)
+	def post(self, request):
+	       serializer = serializer(data=request.DATA)
+	       if serializer.is_valid():
+	           serializer.save()
+	           return Response(serializer.data, status=status.HTTP_201_CREATED)
+	       else:
+	           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CoordinatorView(APIView):
+	def get(self, request):
+	       model = Coordinator.objects.all()
+	       serializer = CoordinatorSerializer(model, many=True)
+	       return Response(serializer.data)
+	def post(self, request):
+	       serializer = serializer(data=request.DATA)
+	       if serializer.is_valid():
+	           serializer.save()
+	           return Response(serializer.data, status=status.HTTP_201_CREATED)
+	       else:
+	           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
