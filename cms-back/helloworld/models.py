@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.files.storage import default_storage
 
+
 class Cat(models.Model):
     CAT_STATUS = (
         ('PRO', 'Proposed'),
@@ -8,22 +9,22 @@ class Cat(models.Model):
         ('FOS', 'Fostered'),
         ('ADO', 'Adopted'),
     )
-    status = models.CharField(max_length=3, choices=CAT_STATUS)    
+    status = models.CharField(max_length=3, choices=CAT_STATUS)
     propose_date = models.DateField()
     intake_date = models.DateField()
-    intake_source = models.CharField(max_length=30) 
+    intake_source = models.CharField(max_length=30)
     finished_quarantine_date = models.DateField()
     cat_id = models.IntegerField()
     cat_name = models.CharField(max_length=30)
-    cat_photo = models.ImageField(upload_to='photos',null=True)
-    cat_medical_history = models.FileField(upload_to='pdfs',null=True)
+    cat_photo = models.ImageField(upload_to='photos', null=True)
+    cat_medical_history = models.FileField(upload_to='pdfs', null=True)
     notes = models.CharField(max_length=100)
     mh_attached = models.BooleanField()
     spayed_neutered = models.BooleanField()
     fvrcp_vaccination = models.BooleanField()
     rabies_vaccination = models.BooleanField()
-    
-    
+
+
 class FosterHome(models.Model):
     STATUS = (
         ('ACT', 'Active'),
@@ -38,10 +39,11 @@ class FosterHome(models.Model):
     car_ownership = models.BooleanField()
     freestyle_notes = models.CharField(max_length=200)
 
+
 class Coordinator(models.Model):
     name = models.CharField(max_length=30)
     type = models.CharField(max_length=40)
-    phone_number= models.CharField(max_length=80)
+    phone_number = models.CharField(max_length=80)
     email = models.CharField(max_length=40)
 
 

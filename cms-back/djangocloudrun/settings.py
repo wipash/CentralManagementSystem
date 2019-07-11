@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'helloworld',
-    'rest_framework'
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -94,7 +94,7 @@ DATABASES = {
         'NAME': os.getenv('DATABASE_NAME', 'dev_centralmanagementsystem'),
         'USER': os.getenv('DATABASE_USER', ''),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', ''),
-    }
+    },
 }
 
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
