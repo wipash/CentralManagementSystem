@@ -27,3 +27,4 @@ stats
 Dockerfile
 key.json
 cms-sql-dev-key.json
+.flake8
