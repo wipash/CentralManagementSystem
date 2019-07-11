@@ -9,7 +9,7 @@ from .models import Coordinator, IntakeSource, Cat, FosterHome
 from .serializers import CoordinatorSerializer, IntakeSourceSerializer, CatSerializer, FosterHomeSerializer
 
 
-def homePageView(request):
+def homePageView(request):  # noqa: N802
     return HttpResponse('Hello, World!')
 
 
