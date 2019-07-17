@@ -28,6 +28,11 @@ docker build -t cms-back .
 docker run -p 8000:8000 -e PORT=8000 cms-back
 ```
 
+Run the docker container using Berglas for secrets
+```bash
+docker run -it -p 8000:8000 -e PORT=8000 -e APP_ENV=staging -e GOOGLE_APPLICATION_CREDENTIALS=/.config/gcloud/application_default_credentials.json -e DATABASE_PASSWORD=berglas://cms-secrets/cms-devsql-password -v "$env:appdata/gcloud\:/.config/gcloud" cms-back
+```
+
 
 # Local dev environment
 

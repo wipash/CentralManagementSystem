@@ -14,8 +14,8 @@ COPY requirements.txt /requirements.txt
 RUN pip install --prefix=/install --no-warn-script-location -r /requirements.txt
 
 FROM base
-# Install requirements for packages
-RUN apk add --no-cache mariadb-connector-c-dev libjpeg
+# Install requirements for packages & ca-certificates for Berglas
+RUN apk add --no-cache mariadb-connector-c-dev libjpeg ca-certificates
 COPY --from=builder /install /usr/local
 
 RUN adduser -D python
@@ -24,5 +24,7 @@ RUN mkdir -p /home/python/app
 WORKDIR /home/python/app
 
 COPY --chown=python:python . .
+# Copy in Berglas
+COPY --from=gcr.io/berglas/berglas:latest /bin/berglas /bin/berglas
 
 CMD ["sh", "run.sh"]

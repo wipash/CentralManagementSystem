@@ -7,6 +7,12 @@ services:
     environment:
       - PORT=3000
       - DATABASE_HOST=cloud-sql-proxy
+      - DATABASE_USER=devsql
+      - DATABASE_PASSWORD=berglas://cms-secrets/cms-devsql-password
+      - APP_ENV=staging
+      - GOOGLE_APPLICATION_CREDENTIALS=/config.json
+    volumes:
+      - ./cms-sql-dev-key.json:/config.json
     ports:
       - "8081:3000"
     depends_on:
