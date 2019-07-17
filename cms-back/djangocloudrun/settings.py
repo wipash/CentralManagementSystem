@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'helloworld',
+    'cms',
     'rest_framework'
 ]
 
@@ -86,9 +86,9 @@ if os.getenv('GAE_APPLICATION', None):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '/cloudsql/[YOUR-CONNECTION-NAME]',
-            'USER': '[YOUR-USERNAME]',
-            'PASSWORD': '[YOUR-PASSWORD]',
+            'HOST': '/cloudsql/centralmanagementsystem',
+            'USER': 'root',
+            'PASSWORD':'IP7FHplnA3jLz51i',
             'NAME': '[YOUR-DATABASE]',
         }
     }

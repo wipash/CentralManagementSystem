@@ -8,10 +8,10 @@ class Cat(models.Model):
         ('FOS', 'Fostered'),
         ('ADO', 'Adopted'),
     )
-    status = models.CharField(max_length=3, choices=CAT_STATUS)    
+    status = models.CharField(max_length=3, choices=CAT_STATUS)
     propose_date = models.DateField()
     intake_date = models.DateField()
-    intake_source = models.CharField(max_length=30) 
+    intake_source = models.CharField(max_length=30)
     finished_quarantine_date = models.DateField()
     cat_id = models.IntegerField()
     cat_name = models.CharField(max_length=30)
@@ -22,8 +22,10 @@ class Cat(models.Model):
     spayed_neutered = models.BooleanField()
     fvrcp_vaccination = models.BooleanField()
     rabies_vaccination = models.BooleanField()
-    
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class FosterHome(models.Model):
     STATUS = (
         ('ACT', 'Active'),
@@ -37,14 +39,20 @@ class FosterHome(models.Model):
     home_environment = models.CharField(max_length=50)
     car_ownership = models.BooleanField()
     freestyle_notes = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Coordinator(models.Model):
     name = models.CharField(max_length=30)
     type = models.CharField(max_length=40)
     phone_number= models.CharField(max_length=80)
     email = models.CharField(max_length=40)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class IntakeSource(models.Model):
     name = models.CharField(max_length=50)
     contact = models.CharField(max_length=80)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
