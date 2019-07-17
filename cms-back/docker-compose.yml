@@ -11,6 +11,8 @@ services:
       - DATABASE_PASSWORD=berglas://cms-secrets/cms-devsql-password
       - APP_ENV=staging
       - GOOGLE_APPLICATION_CREDENTIALS=/config.json
+    entrypoint: /bin/berglas exec --local --
+    command: sh run.sh
     volumes:
       - ./cms-sql-dev-key.json:/config.json
     ports:
