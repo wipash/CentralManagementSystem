@@ -1,4 +1,2 @@
 SECRET_KEY = ''
-INSTALLED_APPS = [
-        "tests",
-]
+INSTALLED_APPS = ["tests"]

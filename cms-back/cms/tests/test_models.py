@@ -14,4 +14,3 @@ class IntakeSourceTest(TestCase):
             intake_nataly.contact, "nataly@test.com")
         self.assertEqual(
             intake_sean.contact, "sean@test.com")
-
