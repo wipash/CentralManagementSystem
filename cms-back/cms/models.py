@@ -1,5 +1,6 @@
 from django.db import models
-from django.core.files.storage import default_storage
+# from django.core.files.storage import default_storage
+
 
 class Cat(models.Model):
     CAT_STATUS = (
@@ -15,8 +16,8 @@ class Cat(models.Model):
     finished_quarantine_date = models.DateField()
     cat_id = models.IntegerField()
     cat_name = models.CharField(max_length=30)
-    cat_photo = models.ImageField(upload_to='photos',null=True)
-    cat_medical_history = models.FileField(upload_to='pdfs',null=True)
+    cat_photo = models.ImageField(upload_to='photos', blank=True)
+    cat_medical_history = models.FileField(upload_to='pdfs', blank=True)
     notes = models.CharField(max_length=100)
     mh_attached = models.BooleanField()
     spayed_neutered = models.BooleanField()
@@ -24,6 +25,9 @@ class Cat(models.Model):
     rabies_vaccination = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '%s %s %s' % (self.cat_id, self.cat_name, self.status)
 
 
 class FosterHome(models.Model):
@@ -42,13 +46,20 @@ class FosterHome(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return '%s %s' % (self.name, self.status)
+
+
 class Coordinator(models.Model):
     name = models.CharField(max_length=30)
     type = models.CharField(max_length=40)
-    phone_number= models.CharField(max_length=80)
+    phone_number = models.CharField(max_length=80)
     email = models.CharField(max_length=40)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '%s %s' % (self.name, self.type)
 
 
 class IntakeSource(models.Model):
@@ -56,3 +67,6 @@ class IntakeSource(models.Model):
     contact = models.CharField(max_length=80)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '%s' % (self.name)

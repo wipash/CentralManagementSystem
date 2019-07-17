@@ -79,36 +79,22 @@ WSGI_APPLICATION = 'djangocloudrun.wsgi.application'
 import MySQLdb  # noqa: F401
 
 
-# [START db_setup]
-if os.getenv('GAE_APPLICATION', None):
-    # Running on production App Engine, so connect to Google Cloud SQL using
-    # the unix socket at /cloudsql/<your-cloudsql-connection string>
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST': '/cloudsql/centralmanagementsystem',
-            'USER': 'root',
-            'PASSWORD':'IP7FHplnA3jLz51i',
-            'NAME': '[YOUR-DATABASE]',
-        }
-    }
-else:
-    # Running locally so connect to either a local MySQL instance or connect to
-    # Cloud SQL via the proxy. To start the proxy via command line:
-    #
-    #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
-    #
-    # See https://cloud.google.com/sql/docs/mysql-connect-proxy
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
-            'PORT': os.getenv('DATABASE_PORT', '3306'),
-            'NAME': os.getenv('DATABASE_NAME', 'dev_centralmanagementsystem'),
-            'USER': os.getenv('DATABASE_USER', 'root'),
-            'PASSWORD': os.getenv('DATABASE_PASSWORD','IP7FHplnA3jLz51i'),
-        }
-    }
+# Running locally so connect to either a local MySQL instance or connect to
+# Cloud SQL via the proxy. To start the proxy via command line:
+#
+#     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+#
+# See https://cloud.google.com/sql/docs/mysql-connect-proxy
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DATABASE_PORT', '3306'),
+        'NAME': os.getenv('DATABASE_NAME', 'dev_centralmanagementsystem'),
+        'USER': os.getenv('DATABASE_USER', ''),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', ''),
+    },
+}
 
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'central-management-system-files'

@@ -5,4 +5,9 @@ Pillow==6.1.0
 pytz==2019.1
 sqlparse==0.3.0
 django-storages==1.7.1
+<<<<<<< HEAD
 djangorestframework==3.9.4
+=======
+#django-rest-framework==0.1.0
+djangorestframework==3.9.4
+>>>>>>> e5094c2037f23e475eaefe652b404e8f9ccf4fba

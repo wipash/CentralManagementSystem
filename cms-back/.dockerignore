@@ -25,6 +25,7 @@ web/media
 web/static/CACHE
 stats
 Dockerfile
+docker-compose.yml
 key.json
 cms-sql-dev-key.json
 .flake8
