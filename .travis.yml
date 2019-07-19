@@ -1,0 +1,18 @@
+---
+dist: xenial
+matrix:
+  include:
+    -
+      name: "cms-back on Python 3.7.3"
+      language: python
+      python: 3.7.3
+      cache: pip
+      before_install:
+        - "sudo apt-get update"
+        - "sudo apt-get install libmysqlclient-dev"
+        - "cd cms-back"
+      install:
+        - "pip install flake8-django flake8-bugbear pep8-naming flake8-commas"
+        - "pip install -r requirements.txt"
+      script:
+        - "flake8 ."

@@ -1,0 +1,9 @@
+[flake8]
+format = default
+show-source = false
+ignore = E501
+exclude =
+        .git,
+        __pycache__,
+        */migrations/*,
+        env

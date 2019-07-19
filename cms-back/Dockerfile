@@ -1,17 +1,30 @@
-FROM node:12-alpine
+FROM python:3.7-alpine as base
 
-# Yarn install before copying in code to make use of Docker caching
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
-COPY package.json yarn.lock ./
-USER node
-RUN yarn install
+FROM base as builder
+RUN mkdir /install
+WORKDIR /install
+# Install build requirements
+RUN apk add --no-cache mariadb-connector-c-dev \
+    && apk add --no-cache --virtual .build-deps build-base mariadb-dev jpeg-dev zlib-dev
 
-# Copy in app code
-COPY --chown=node:node . .
+COPY requirements.txt /requirements.txt
+# Enable manylinux1 support, so that we can get Wheels for more packages: https://github.com/pypa/pip/issues/3969#issuecomment-247381915
+#RUN echo 'manylinux1_compatible = True' > /usr/local/lib/python3.7/site-packages/_manylinux.py \
+#    && pip install --prefix=/install --no-warn-script-location -r /requirements.txt
+RUN pip install --prefix=/install --no-warn-script-location -r /requirements.txt
 
-# Build
-RUN yarn run tsc
+FROM base
+# Install requirements for packages & ca-certificates for Berglas
+RUN apk add --no-cache mariadb-connector-c-dev libjpeg ca-certificates
+COPY --from=builder /install /usr/local
 
-EXPOSE 3000
-CMD ["node", "./build/app.js"]
+RUN adduser -D python
+USER python
+RUN mkdir -p /home/python/app
+WORKDIR /home/python/app
+
+COPY --chown=python:python . .
+# Copy in Berglas
+COPY --from=gcr.io/berglas/berglas:latest /bin/berglas /bin/berglas
+
+CMD ["sh", "run.sh"]
