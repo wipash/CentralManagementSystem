@@ -46,5 +46,5 @@ matrix:
         - ./cloud_sql_proxy -instances=$CLOUD_SQL_ICN -dir=/cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
 
       script:
-        - "berglas exec --local -- python manage.py test"
+        - "./berglas exec --local -- python manage.py test"
         - "flake8 ."
