@@ -9,7 +9,7 @@ class IntakeSourceAPIViewTestCase(APITestCase):
     def test_invalid_data(self):
         user_data = {
             "name": "tester",
-            "contact": 100,
+            "failed": 100,
         }
         response = self.client.post(self.url, user_data)
         self.assertEqual(400, response.status_code)
