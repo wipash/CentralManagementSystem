@@ -20,7 +20,7 @@ matrix:
         - "cd cms-back"
 
         - "sudo apt-get update"
-        - "sudo apt-get install libmysqlclient-dev"
+        - "sudo apt-get install libmysqlclient-dev expect-dev"
 
         - echo "Decrypting SA key"
         - openssl aes-256-cbc -K $encrypted_c430de12f044_key -iv $encrypted_c430de12f044_iv -in travis-sa-key.json.enc -out $GOOGLE_APPLICATION_CREDENTIALS -d
@@ -46,5 +46,5 @@ matrix:
         - ./cloud_sql_proxy -instances=$CLOUD_SQL_ICN -dir=/cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
 
       script:
-        - "./berglas exec --local -- python manage.py test"
-        - "flake8 ."
+        - "unbuffer ./berglas exec --local -- python manage.py test"
+        - "unbuffer flake8 ."
