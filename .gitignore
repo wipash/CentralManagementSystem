@@ -2,8 +2,8 @@
 # Edit at https://www.gitignore.io/?templates=django,visualstudiocode
 
 ### GCloud ###
-key.json
-cms-sql-dev-key.json
+*key.json
+!*key.json.enc
 
 ### Django ###
 *.log

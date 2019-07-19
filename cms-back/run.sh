@@ -2,7 +2,7 @@
 if [ "$APP_ENV" == "production" ]
 then
     /bin/berglas exec -- gunicorn djangocloudrun.wsgi -w 2 -b ":$PORT"
-elif [ "$APP_ENV" == "staging" ]
+elif [ "$APP_ENV" == "testing" || "$APP_ENV" == "staging" ]
 then
     /bin/berglas exec --local -- gunicorn djangocloudrun.wsgi -w 2 -b ":$PORT"
 else

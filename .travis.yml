@@ -1,4 +1,5 @@
 ---
+os: linux
 dist: xenial
 matrix:
   include:
@@ -7,12 +8,43 @@ matrix:
       language: python
       python: 3.7.3
       cache: pip
+      env:
+      - DATABASE_PASSWORD=berglas://cms-secrets/cms-devsql-password
+        DATABASE_NAME=centralmanagementsystem
+        DATABASE_USER=devsql
+        DATABASE_HOST=/cloudsql/central-management-system:us-central1:cms-back-tcr
+        CLOUD_SQL_ICN=central-management-system:us-central1:cms-back-tcr
+        APP_ENV=testing
+        GOOGLE_APPLICATION_CREDENTIALS=/home/travis/travis-sa-key.json
       before_install:
+        - "cd cms-back"
+
         - "sudo apt-get update"
         - "sudo apt-get install libmysqlclient-dev"
-        - "cd cms-back"
+
+        - echo "Decrypting SA key"
+        - openssl aes-256-cbc -K $encrypted_c430de12f044_key -iv $encrypted_c430de12f044_iv -in travis-sa-key.json.enc -out $GOOGLE_APPLICATION_CREDENTIALS -d
+
       install:
+        - echo "Install requirements"
         - "pip install flake8-django flake8-bugbear pep8-naming flake8-commas"
         - "pip install -r requirements.txt"
+
+        - echo "Install and setup Cloud SQL proxy"
+        - wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64
+        - mv cloud_sql_proxy.linux.amd64 cloud_sql_proxy
+        - chmod +x cloud_sql_proxy
+        - sudo mkdir /cloudsql
+        - sudo chmod 777 /cloudsql
+
+        - echo "Install Berglas"
+        - wget https://storage.googleapis.com/berglas/master/linux_amd64/berglas
+        - chmod +x berglas
+
+      before_script:
+        - echo "Start cloud_sql_proxy";
+        - ./cloud_sql_proxy -instances=$CLOUD_SQL_ICN -dir=/cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
+
       script:
+        - "berglas exec --local -- python manage.py test"
         - "flake8 ."

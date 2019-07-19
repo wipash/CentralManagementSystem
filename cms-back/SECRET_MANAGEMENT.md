@@ -1,3 +1,52 @@
+# Travis Secrets
+Travis needs to have credentials for a service account to decrypt Berglas secrets, and to to run tests against the Cloud SQL database.
+
+## Initial Setup
+Create a service account, and grant access to Cloud SQL:
+```bash
+export SA_NAME=travis-sa
+gcloud beta iam service-accounts create ${SA_NAME} \
+  --description "Service Account for Travis CI" \
+  --display-name ${SA_NAME}
+
+export PROJECT_ID=central-management-system
+export SA_EMAIL=$(gcloud iam service-accounts list --filter="NAME=${SA_NAME}" --format="value(EMAIL)")
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member serviceAccount:${SA_EMAIL} \
+  --role roles/cloudsql.editor
+```
+
+This account will also need to be granted access to any required Berglas secrets (required Berglas, see [here](#install-berglas)):
+```bash
+export BUCKET_ID=cms-secrets
+./berglas grant ${BUCKET_ID}/cms-devsql-password --member serviceAccount:${SA_EMAIL}
+```
+
+## Export and Encrypt Keys
+You first need the [Travis CLI](https://github.com/travis-ci/travis.rb) installed:
+```bash
+sudo apt install ruby ruby-dev make gcc
+sudo gem install travis
+```
+Log in to Travis, using your GitHub credentials
+```bash
+travis login --com
+
+# You can also use a GitHub access token:
+travis login --com --github-token YOURTOKEN
+```
+
+Dump the credential file for the service account we just created, and encrypt it using Travis:
+```bash
+gcloud iam service-accounts keys create ${SA_NAME}-key.json --iam-account ${SA_EMAIL}
+travis encrypt-file --com ${SA_NAME}-key.json
+```
+
+Take note of the output, and add the relevant command to .travis.yml to decrypt the file
+
+# Berglas Secrets
+
 ## Setup Environment
 
 ```bash
