@@ -7,14 +7,14 @@ steps:
          '-t', 'gcr.io/central-management-system/cmsback:latest',
          '-t', 'gcr.io/central-management-system/cmsback:1.0.0',
          './cms-back/']
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'cms-back-latest-push'
-  waitFor: ['cms-back']
-  args: ['push', 'gcr.io/central-management-system/cmsback:latest']
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'cms-back-version-push'
-  waitFor: ['cms-back']
-  args: ['push', 'gcr.io/central-management-system/cmsback:1.0.0']
+# - name: 'gcr.io/cloud-builders/docker'
+#   id: 'cms-back-latest-push'
+#   waitFor: ['cms-back']
+#   args: ['push', 'gcr.io/central-management-system/cmsback:latest']
+# - name: 'gcr.io/cloud-builders/docker'
+#   id: 'cms-back-version-push'
+#   waitFor: ['cms-back']
+#   args: ['push', 'gcr.io/central-management-system/cmsback:1.0.0']
 #cms-front
 - name: 'gcr.io/cloud-builders/docker'
   id: 'cms-front'
@@ -23,11 +23,11 @@ steps:
          '-t', 'gcr.io/central-management-system/cmsfront:latest',
          '-t', 'gcr.io/central-management-system/cmsfront:1.0.0',
          './cms-front/']
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'cms-front-latest-push'
-  waitFor: ['cms-front']
-  args: ['push', 'gcr.io/central-management-system/cmsfront:latest']
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'cms-front-version-push'
-  waitFor: ['cms-front']
-  args: ['push', 'gcr.io/central-management-system/cmsfront:1.0.0']
+# - name: 'gcr.io/cloud-builders/docker'
+#   id: 'cms-front-latest-push'
+#   waitFor: ['cms-front']
+#   args: ['push', 'gcr.io/central-management-system/cmsfront:latest']
+# - name: 'gcr.io/cloud-builders/docker'
+#   id: 'cms-front-version-push'
+#   waitFor: ['cms-front']
+#   args: ['push', 'gcr.io/central-management-system/cmsfront:1.0.0']
