@@ -1,5 +1,7 @@
 # CentralManagementSystem
 [![Build Status](https://travis-ci.com/torontocatrescue/CentralManagementSystem.svg?branch=develop)](https://travis-ci.com/torontocatrescue/CentralManagementSystem)
+[![codecov](https://codecov.io/gh/torontocatrescue/CentralManagementSystem/branch/develop/graph/badge.svg)](https://codecov.io/gh/torontocatrescue/CentralManagementSystem)
+
 
 ## Build and run with Docker
 
