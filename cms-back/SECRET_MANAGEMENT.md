@@ -1,5 +1,5 @@
 # Travis Secrets
-Travis needs to have credentials for a service account to decrypt Berglas secrets, and to to run tests against the Cloud SQL database.
+Travis needs to have credentials for a service account to decrypt Berglas secrets, and to run tests against the Cloud SQL database.
 
 ## Initial Setup
 Create a service account, and grant access to Cloud SQL:
@@ -46,6 +46,9 @@ travis encrypt-file --com ${SA_NAME}-key.json
 Take note of the output, and add the relevant command to .travis.yml to decrypt the file
 
 # Berglas Secrets
+This project uses [Berglas](https://github.com/GoogleCloudPlatform/berglas) to securely store secrets. Berglas encrypts secrets using a key stored in [Google KMS](https://console.cloud.google.com/security/kms/keyring/manage/global/berglas?project=central-management-system), and then stores them in a [Cloud Storage bucket](https://console.cloud.google.com/storage/browser/cms-secrets?project=central-management-system).
+
+Before managing keys, you'll need to [install & set up](#initial-setup-1) the Berglas CLI.
 
 ## Setup Environment
 
@@ -57,9 +60,9 @@ export KMS_KEY=projects/${PROJECT_ID}/locations/global/keyRings/berglas/cryptoKe
 export SA_EMAIL=$(gcloud beta run configurations describe ${RUN_ID} --region=us-central1 --platform=managed --format="value(spec.template.spec.serviceAccountName)")
 ```
 
-# Normal usage
+## Normal usage
 
-## Create or overwrite a key
+### Create or overwrite a key
 
 1. Create or overwrite existing key
 ```bash
@@ -83,7 +86,7 @@ export SA_EMAIL=$(gcloud beta run configurations describe ${RUN_ID} --region=us-
 ```
 
 
-## Use the secret
+### Use the secret
 1. Declare environment variables in format `berglas://${BUCKET_ID}/secret-name`
 ```bash
 export DATABASE_PASSWORD=berglas://cms-secrets/cms-devsql-password
@@ -94,9 +97,9 @@ export DATABASE_PASSWORD=berglas://cms-secrets/cms-devsql-password
 ```
 
 
-# Initial setup
+## Initial setup
 
-## Install Berglas
+### Install Berglas
 
 1. Log in to Gcloud SDK to generate Default Application Credentials
 ```bash
@@ -109,7 +112,8 @@ wget https://storage.googleapis.com/berglas/master/linux_amd64/berglas
 chmod +x ./berglas
 ```
 
-## Setup project
+### Set up a new Google Cloud Platform project
+This step is only required once, at the beginning of a new project.
 
 1. Enable required services
 ```bash

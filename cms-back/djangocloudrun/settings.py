@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'djangocloudrun.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-import MySQLdb  # noqa: F401
+# import MySQLdb  # noqa: F401
 
 
 # Running locally so connect to either a local MySQL instance or connect to
