@@ -27,7 +27,7 @@ matrix:
 
       install:
         - echo "Install requirements"
-        - "pip install flake8-django flake8-bugbear pep8-naming flake8-commas"
+        - "pip install flake8-django flake8-bugbear flake8-commas pep8-naming coverage codecov"
         - "pip install -r requirements.txt"
 
         - echo "Install and setup Cloud SQL proxy"
@@ -46,5 +46,8 @@ matrix:
         - ./cloud_sql_proxy -instances=$CLOUD_SQL_ICN -dir=/cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
 
       script:
-        - "unbuffer ./berglas exec --local -- python manage.py test"
+        - "unbuffer ./berglas exec --local -- coverage --source='.' manage.py test"
         - "unbuffer flake8 ."
+
+      after_success:
+        - codecov
