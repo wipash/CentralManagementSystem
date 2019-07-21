@@ -46,7 +46,7 @@ matrix:
         - ./cloud_sql_proxy -instances=$CLOUD_SQL_ICN -dir=/cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
 
       script:
-        - "unbuffer ./berglas exec --local -- coverage run --source='.' manage.py test"
+        - "unbuffer ./berglas exec --local -- coverage run --source='.' manage.py test --noinput"
         - "unbuffer flake8 ."
 
       after_success:
