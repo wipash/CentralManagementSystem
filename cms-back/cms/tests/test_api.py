@@ -1,9 +1,30 @@
+from datetime import datetime, date
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 
 from rest_framework.test import APITestCase
 
 from ..models import Coordinator, IntakeSource, Cat, FosterHome
 from ..serializers import CoordinatorSerializer, IntakeSourceSerializer, CatSerializer, FosterHomeSerializer
+
+
+cat_data = {
+    "status": "ADO",
+    "propose_date": date.today(),
+    "intake_date": date.today(),
+    "intake_source": "Terry's House",
+    "finished_quarantine_date": date.today(),
+    "cat_id": 100,
+    "cat_name": "Christopher",
+    "cat_photo": SimpleUploadedFile(name='test.jpg', content=open("cms/tests/static/test.jpg", 'rb').read(), content_type='image/jpeg'),
+    "cat_medical_history": SimpleUploadedFile('medical_history.txt', content=open("cms/tests/static/test.pdf", 'rb').read(), content_type='application/pdf'),
+    "notes": "Test",
+    "mh_attached": True,
+    "spayed_neutered": True,
+    "fvrcp_vaccination": True,
+    "rabies_vaccination": True,
+}
 
 
 class IntakeSourceAPIViewTestCase(APITestCase):
@@ -23,6 +44,14 @@ class IntakeSourceAPIViewTestCase(APITestCase):
             "contact": "test@test.com",
         }
         response = self.client.post(self.url, user_data)
+        self.assertEqual(201, response.status_code)
+
+
+class CatAPIViewTestCase(APITestCase):
+    url = reverse("Cat")
+
+    def test_valid_data(self):
+        response = self.client.post(self.url, cat_data)
         self.assertEqual(201, response.status_code)
 
 
