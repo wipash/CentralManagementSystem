@@ -142,19 +142,19 @@ switch -Regex ($Project) {
                 Invoke-DockerCompose -args @("up", "--build", "cms-back-dev")
             }
             "test" {
-                Invoke-DockerCompose -args @("run", "cms-back-dev", "python", "manage.py", "test")
+                Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "test")
             }
             "flake8" {
-                Invoke-DockerCompose -args @("run", "cms-back-dev", "flake8")
+                Invoke-DockerCompose -args @("run", "--rm", "--no-deps", "cms-back-dev", "flake8")
             }
             "makemigrations" {
-                Invoke-DockerCompose -args @("run", "cms-back-dev", "python", "manage.py", "makemigrations")
+                Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "makemigrations")
             }
             "showmigrations" {
-                Invoke-DockerCompose -args @("run", "cms-back-dev", "python", "manage.py", "showmigrations")
+                Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "showmigrations")
             }
             "migrate" {
-                Invoke-DockerCompose -args @("run", "cms-back-dev", "python", "manage.py", "migrate")
+                Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "migrate")
             }
             "stop|down" {
                 Invoke-DockerCompose -args @("down")
