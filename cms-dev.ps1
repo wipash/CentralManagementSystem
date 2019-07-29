@@ -1,8 +1,28 @@
+<#
+
+.SYNOPSIS
+This is a simple helper script for CentralManagementSystem
+
+.DESCRIPTION
+The script handles setup for gcloud SDK credentials,
+and provides various shortcuts for docker-compose to start up different parts of the environment
+
+.EXAMPLE
+./cms-dev.ps1 cms-back setup
+
+.EXAMPLE
+./cms-dev.ps1 cms-back dev
+
+.NOTES
+Tested on Windows 10
+
+#>
 [CmdletBinding()]
 param(
     [string] $Project,
     [string] $Command
 )
+
 
 # Project settings
 $PROJECT_ID = "central-management-system"
@@ -111,7 +131,7 @@ services:
 
 Function Invoke-DockerCompose {
     Param (
-        [Parameter(Mandatory=$True)]
+        [Parameter(Mandatory = $True)]
         $args
     )
     Test-GcloudServiceAccountKeyFile
@@ -124,11 +144,17 @@ switch -Regex ($Project) {
     "setup" {
         Initialize-Gcloud
     }
+    "up" {
+        Invoke-DockerCompose -args @("up")
+    }
     "stop|down" {
         Invoke-DockerCompose -args @("down")
     }
     "ps" {
         Invoke-DockerCompose -args @("ps")
+    }
+    "build" {
+        Invoke-DockerCompose -args @("build")
     }
     "cms-back" {
         switch -Regex ($Command) {
@@ -136,7 +162,7 @@ switch -Regex ($Project) {
                 Initialize-Gcloud
             }
             "build" {
-                Invoke-DockerCompose -args @("build")
+                Invoke-DockerCompose -args @("build", "cms-back-dev")
             }
             "dev" {
                 Invoke-DockerCompose -args @("up", "--build", "cms-back-dev")
