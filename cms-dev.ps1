@@ -11,15 +11,19 @@ and provides various shortcuts for docker-compose to start up different parts of
 ./cms-dev.ps1 cms-back setup
 
 .EXAMPLE
-./cms-dev.ps1 cms-back dev
+./cms-dev.ps1 down
 
 .NOTES
 Tested on Windows 10
 
 #>
-[CmdletBinding()]
+[CmdletBinding(DefaultParametersetName = "None")]
 param(
+    [Parameter(ParameterSetName = "ProjectCommand", Position = 0, Mandatory = $True)]
     [string] $Project,
+
+    [Parameter(ParameterSetName = "ProjectCommand", Position = 1, Mandatory = $True)]
+    [Parameter(ParameterSetName = "Command", Position = 0, Mandatory = $True)]
     [string] $Command
 )
 
@@ -37,7 +41,6 @@ $DOCKER_COMPOSE_OVERRIDE_FILE = New-TemporaryFile
 $KEY_FILE_NAME = "$SERVICE_ACCOUNT-key.json"
 $KEY_FILE_PATH = Join-Path $PWD $KEY_FILE_NAME
 $SERVICE_ACCOUNT_EMAIL = "$SERVICE_ACCOUNT@$PROJECT_ID.iam.gserviceaccount.com"
-
 
 Function Initialize-Gcloud {
     # Check that we're logged in to gcloud
@@ -128,7 +131,6 @@ services:
 " | Out-File $DOCKER_COMPOSE_OVERRIDE_FILE
 }
 
-
 Function Invoke-DockerCompose {
     Param (
         [Parameter(Mandatory = $True)]
@@ -140,61 +142,83 @@ Function Invoke-DockerCompose {
     &docker-compose --file $DOCKER_COMPOSE_DEV_FILE --file $DOCKER_COMPOSE_OVERRIDE_FILE $args
 }
 
-switch -Regex ($Project) {
-    "setup" {
-        Initialize-Gcloud
-    }
-    "up" {
-        Invoke-DockerCompose -args @("up")
-    }
-    "stop|down" {
-        Invoke-DockerCompose -args @("down")
-    }
-    "ps" {
-        Invoke-DockerCompose -args @("ps")
-    }
-    "build" {
-        Invoke-DockerCompose -args @("build")
-    }
-    "cms-back" {
-        switch -Regex ($Command) {
-            "setup" {
-                Initialize-Gcloud
-            }
-            "build" {
-                Invoke-DockerCompose -args @("build", "cms-back-dev")
-            }
-            "dev" {
-                Invoke-DockerCompose -args @("up", "--build", "cms-back-dev")
-            }
-            "test" {
-                Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "test")
-            }
-            "flake8" {
-                Invoke-DockerCompose -args @("run", "--rm", "--no-deps", "cms-back-dev", "flake8")
-            }
-            "makemigrations" {
-                Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "makemigrations")
-            }
-            "showmigrations" {
-                Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "showmigrations")
-            }
-            "migrate" {
-                Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "migrate")
-            }
-            "stop|down" {
-                Invoke-DockerCompose -args @("down")
-            }
-            default {
-                Write-Host "No known command specified"
-            }
+Function CommonCommands {
+    Param (
+        [Parameter(Mandatory = $True)]
+        $Command
+    )
+    switch -Regex ($Command) {
+        "setup" {
+            Initialize-Gcloud
         }
-    }
-    "cms-front" {
-        Write-Host "Not implemented yet"
-    }
-    default {
-        Write-Host "No known project specified"
+        "up" {
+            Invoke-DockerCompose -args @("up")
+        }
+        "stop|down" {
+            Invoke-DockerCompose -args @("down")
+        }
+        "ps" {
+            Invoke-DockerCompose -args @("ps")
+        }
+        "build" {
+            Invoke-DockerCompose -args @("build")
+        }
+        default {
+            Write-Host "Unknown command: $Command"
+        }
     }
 }
 
+
+# Work out which parameter set we've been given
+if ($PsCmdLet.ParameterSetName -eq "None") {
+    Get-Help $MyInvocation.PSCommandPath -full
+}
+# PowerShell isn't able to work out which parameter set to use when using positional parameters.
+# Therfore, if only one positional parameter is provided, it sets both $Project and $Command to that value.
+# If the script is called with a single named parameter, it correctly chooses the parameter set.
+elseif ($Project -eq $Command -or $PsCmdLet.ParameterSetName -eq "Command") {
+    CommonCommands -Command $Command
+}
+else {
+    switch ($Project) {
+        "cms-back" {
+            switch ($Command) {
+                "build" {
+                    Invoke-DockerCompose -args @("build", "cms-back-dev")
+                }
+                "dev" {
+                    Invoke-DockerCompose -args @("up", "--build", "cms-back-dev")
+                }
+                "test" {
+                    Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "test")
+                }
+                "flake8" {
+                    Invoke-DockerCompose -args @("run", "--rm", "--no-deps", "cms-back-dev", "flake8")
+                }
+                "makemigrations" {
+                    Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "makemigrations")
+                }
+                "showmigrations" {
+                    Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "showmigrations")
+                }
+                "migrate" {
+                    Invoke-DockerCompose -args @("run", "--rm", "cms-back-dev", "python", "manage.py", "migrate")
+                }
+                default {
+                    CommonCommands -Command $Command
+                }
+            }
+        }
+        "cms-front" {
+            switch ($Command) {
+                default {
+                    CommonCommands -Command $Command
+                }
+            }
+        }
+        default {
+            Write-Host "Unknown project: $Project"
+        }
+    }
+}
