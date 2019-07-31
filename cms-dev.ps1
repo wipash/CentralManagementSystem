@@ -148,19 +148,19 @@ Function CommonCommands {
         $Command
     )
     switch -Regex ($Command) {
-        "setup" {
+        "^setup$" {
             Initialize-Gcloud
         }
-        "up" {
+        "^up$" {
             Invoke-DockerCompose -args @("up")
         }
-        "stop|down" {
+        "^stop$|^down$" {
             Invoke-DockerCompose -args @("down")
         }
-        "ps" {
+        "^ps$" {
             Invoke-DockerCompose -args @("ps")
         }
-        "build" {
+        "^build$" {
             Invoke-DockerCompose -args @("build")
         }
         default {
