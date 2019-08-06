@@ -2,21 +2,23 @@
 version: '3'
 
 services:
-  cms-back:
+  cms-back-dev:
     build:
       context: ./cms-back
+      dockerfile: Dockerfile-dev
     environment:
       - PORT=8081
       - DATABASE_HOST=cloud-sql-proxy
       - DATABASE_USER=devsql
       - DATABASE_PASSWORD=berglas://cms-secrets/cms-devsql-password
       - DATABASE_NAME=dev_centralmanagementsystem
-      - APP_ENV=staging
+      - APP_ENV=dev
       - GOOGLE_APPLICATION_CREDENTIALS=/config.json
     entrypoint: /bin/berglas exec --local --
     command: sh run.sh
     volumes:
       - ./cms-sql-dev-key.json:/config.json
+      - ./cms-back:/home/python/app
     ports:
       - "8081:8081"
     depends_on:
@@ -31,7 +33,7 @@ services:
       - 3306:3306
 
 
-  cms-front:
+  cms-front-dev:
     build:
       context: ./cms-front
     environment:

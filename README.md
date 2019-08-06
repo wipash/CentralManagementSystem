@@ -6,7 +6,19 @@
 ## Build and run with Docker
 
 ## Dev environment
-Coming soon
+```bash
+# The cloud-sql-proxy service will start in the background the first time you
+# run these commands, and will continue running even when cms-back-dev stops
+
+# Start in foreground:
+docker-compose --file .\docker-compose-dev.yml up --build cms-back-dev
+
+# Start in background:
+docker-compose --file .\docker-compose-dev.yml up --build --detach cms-back-dev
+
+# Clean up, and stop any detached services (including cloud-sql-proxy)
+docker-compose down
+```
 
 ## Staging environment
 ``` bash
