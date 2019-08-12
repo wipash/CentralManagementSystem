@@ -1,12 +1,12 @@
-from datetime import datetime, date
+from datetime import date
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 
 from rest_framework.test import APITestCase
 
-from ..models import Coordinator, IntakeSource, Cat, FosterHome
-from ..serializers import CoordinatorSerializer, IntakeSourceSerializer, CatSerializer, FosterHomeSerializer
+from ..models import IntakeSource
+from ..serializers import IntakeSourceSerializer
 
 
 cat_data = {
@@ -24,6 +24,23 @@ cat_data = {
     "spayed_neutered": True,
     "fvrcp_vaccination": True,
     "rabies_vaccination": True,
+}
+
+foster_home_data = {
+    "name": "John Doe",
+    "address": "123 Wallaby Lane",
+    "contact_info": "test@test.com",
+    "status": "Active",
+    "home_environment": "Large Home",
+    "car_ownership": True,
+    "freestyle_notes": "Test Test Test"
+}
+
+coordinator_data = {
+    "name": "test test test",
+    "type": "test test test",
+    "phone_number": "test test test",
+    "email": "test test test"
 }
 
 
@@ -53,6 +70,23 @@ class CatAPIViewTestCase(APITestCase):
     def test_valid_data(self):
         response = self.client.post(self.url, cat_data)
         self.assertEqual(201, response.status_code)
+
+
+class CoordinatorAPIViewTestCase(APITestCase):
+    url = reverse("Coordinator")
+
+    def test_valid_data(self):
+        response = self.client.post(self.url, coordinator_data)
+        self.assertEqual(201, response.status_code)
+
+
+class FosterHomeAPIViewTestCase(APITestCase):
+    url = reverse("FosterHome")
+
+    def test_valid_data(self):
+        response = self.client.post(self.url, foster_home_data)
+        self.assertEqual(201, response.status_code)
+
 
 
 class IntakeSourceDetailAPIViewTestCase(APITestCase):

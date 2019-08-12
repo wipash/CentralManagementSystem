@@ -31,11 +31,6 @@ class Cat(models.Model):
 
 
 class FosterHome(models.Model):
-    STATUS = (
-        ('ACT', 'Active'),
-        ('INA', 'Inactive'),
-        ('NAF', 'Not Allowed to Foster'),
-    )
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=80)
     contact_info = models.CharField(max_length=80)
