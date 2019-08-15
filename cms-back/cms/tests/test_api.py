@@ -33,14 +33,14 @@ foster_home_data = {
     "status": "Active",
     "home_environment": "Large Home",
     "car_ownership": True,
-    "freestyle_notes": "Test Test Test"
+    "freestyle_notes": "Test Test Test",
 }
 
 coordinator_data = {
     "name": "test test test",
     "type": "test test test",
     "phone_number": "test test test",
-    "email": "test test test"
+    "email": "test test test",
 }
 
 
@@ -86,7 +86,6 @@ class FosterHomeAPIViewTestCase(APITestCase):
     def test_valid_data(self):
         response = self.client.post(self.url, foster_home_data)
         self.assertEqual(201, response.status_code)
-
 
 
 class IntakeSourceDetailAPIViewTestCase(APITestCase):
