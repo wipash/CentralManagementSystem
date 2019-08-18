@@ -5,8 +5,8 @@ from django.urls import reverse
 
 from rest_framework.test import APITestCase
 
-from ..models import IntakeSource
-from ..serializers import IntakeSourceSerializer
+from ..models import IntakeSource, Cat, FosterHome
+from ..serializers import IntakeSourceSerializer, CatSerializer, FosterHomeSerializer
 
 
 cat_data = {
@@ -86,6 +86,40 @@ class FosterHomeAPIViewTestCase(APITestCase):
     def test_valid_data(self):
         response = self.client.post(self.url, foster_home_data)
         self.assertEqual(201, response.status_code)
+
+
+class FosterHomeDetailAPIViewTestCase(APITestCase):
+    def setUp(self):
+        foster_home1 = foster_home2 = foster_home3 = foster_home4 = foster_home_data
+        foster_home1["contact_info"] = "test1"
+        foster_home2["contact_info"] = "test2"
+        foster_home3["contact_info"] = "test3"
+        foster_home4["contact_info"] = "test4"
+        self.test1 = FosterHome.objects.create(**foster_home1)
+        self.test2 = FosterHome.objects.create(**foster_home2)
+        self.test3 = FosterHome.objects.create(**foster_home3)
+        self.test4 = FosterHome.objects.create(**foster_home4)
+
+    def test_get_id(self):
+        response = self.client.get(reverse("fosterhomeID", kwargs={'pk': self.test1.pk}))
+        self.assertEqual(response.data, FosterHomeSerializer(self.test1).data)
+
+
+class CatDetailAPIViewTestCase(APITestCase):
+    def setUp(self):
+        cat1 = cat2 = cat3 = cat4 = cat_data
+        cat1["cat_name"] = "test1"
+        cat2["cat_name"] = "test2"
+        cat3["cat_name"] = "test3"
+        cat4["cat_name"] = "test4"
+        self.test1 = Cat.objects.create(**cat1)
+        self.test2 = Cat.objects.create(**cat2)
+        self.test3 = Cat.objects.create(**cat3)
+        self.test4 = Cat.objects.create(**cat4)
+
+    def test_get_id(self):
+        response = self.client.get(reverse("CatID", kwargs={'pk': self.test1.pk}))
+        self.assertEqual(response.data, self.test1.data)
 
 
 class IntakeSourceDetailAPIViewTestCase(APITestCase):
