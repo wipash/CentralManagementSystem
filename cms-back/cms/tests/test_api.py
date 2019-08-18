@@ -101,7 +101,7 @@ class FosterHomeDetailAPIViewTestCase(APITestCase):
         self.test4 = FosterHome.objects.create(**foster_home4)
 
     def test_get_id(self):
-        response = self.client.get(reverse("fosterhomeID", kwargs={'pk': self.test1.pk}))
+        response = self.client.get(reverse("FosterHomeID", kwargs={'pk': self.test1.pk}))
         self.assertEqual(response.data, FosterHomeSerializer(self.test1).data)
 
 
@@ -119,7 +119,7 @@ class CatDetailAPIViewTestCase(APITestCase):
 
     def test_get_id(self):
         response = self.client.get(reverse("CatID", kwargs={'pk': self.test1.pk}))
-        self.assertEqual(response.data, self.test1.data)
+        self.assertEqual(response.data, CatSerializer(self.test1).data)
 
 
 class IntakeSourceDetailAPIViewTestCase(APITestCase):
