@@ -107,18 +107,21 @@ class FosterHomeDetailAPIViewTestCase(APITestCase):
 
 class CatDetailAPIViewTestCase(APITestCase):
     def setUp(self):
-        cat1 = cat2 = cat3 = cat4 = cat_data
-        cat1["cat_name"] = "test1"
-        cat2["cat_name"] = "test2"
-        cat3["cat_name"] = "test3"
-        cat4["cat_name"] = "test4"
+        cat1 = cat_data.copy()
+        cat2 = cat_data.copy()
+        cat3 = cat_data.copy()
+        cat4 = cat_data.copy()
+        cat1["cat_id"] = 1
+        cat2["cat_id"] = 2
+        cat3["cat_id"] = 3
+        cat4["cat_id"] = 4
         self.test1 = Cat.objects.create(**cat1)
         self.test2 = Cat.objects.create(**cat2)
         self.test3 = Cat.objects.create(**cat3)
         self.test4 = Cat.objects.create(**cat4)
 
     def test_get_id(self):
-        response = self.client.get(reverse("CatID", kwargs={'pk': self.test1.pk}))
+        response = self.client.get(reverse("CatID", kwargs={'CatID': self.test1.cat_id}))
         self.assertEqual(response.data, CatSerializer(self.test1).data)
 
 

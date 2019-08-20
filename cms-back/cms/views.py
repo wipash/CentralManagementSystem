@@ -75,27 +75,27 @@ class CoordinatorView(APIView):
 
 
 class CatDetailView(APIView):
-    def get_object(self, pk):
+    def get_object(self, CatID):
         try:
-            return Cat.objects.get(pk=pk)
+            return Cat.objects.get(cat_id=CatID)
         except Cat.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
-        object = self.get_object(pk)
+    def get(self, request, CatID, format=None):
+        object = self.get_object(CatID)
         serializer = CatSerializer(object)
         return Response(serializer.data)
 
-    def put(self, request, pk, format=None):
-        object = self.get_object(pk)
+    def put(self, request, CatID, format=None):
+        object = self.get_object(CatID)
         serializer = CatSerializer(object, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        object = self.get_object(pk)
+    def delete(self, request, CatID, format=None):
+        object = self.get_object(CatID)
         object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
