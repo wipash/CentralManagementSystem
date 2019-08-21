@@ -121,7 +121,7 @@ class CatDetailAPIViewTestCase(APITestCase):
         self.test4 = Cat.objects.create(**cat4)
 
     def test_get_id(self):
-        response = self.client.get(reverse("CatID", kwargs={'CatID': self.test1.cat_id}))
+        response = self.client.get(reverse("CatID", kwargs={'catID': self.test1.cat_id}))
         self.assertEqual(response.data, CatSerializer(self.test1).data)
 
 
